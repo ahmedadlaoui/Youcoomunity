@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Http\Controllers;
+
+
+use Illuminate\Support\Facades\Auth;
+use App\Models\Event;
+use Illuminate\Http\Request;
+
+class EventController extends Controller
+{
+    public function index()
+    {
+        $events = Event::all();
+        if(empty($events)){
+            $events = [];
+        }
+        return view('dashboard/myevents', compact('events'));
+    }
+    public function addevent(){
+
+        $event = new Event();
+        $event->title = request('title');
+        $event->description = request('description');
+        $event->location = request('location');
+        $event->category = request('category');
+        $event->imageUrl = request('imageUrl');
+        $event->maxparticipants = request('maxParticipants');
+        $event->time = request('date') . ' ' . request('time');
+        $event->user_id = Auth::id();
+
+        error_log($event);
+        $event->save();
+
+        return redirect()->route('events.index');
+    }
+    public function removeevent(){
+        
+        $Eventtodelete = Event::findOrFail(request('idtodelete'));
+        $Eventtodelete->delete();
+        return redirect()->route('events.index');
+    }
+}
