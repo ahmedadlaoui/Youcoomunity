@@ -228,66 +228,174 @@
             <!-- Event Card 1 -->
             @foreach($events as $event)
             @if($event->status == 'Active')
-            <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 group">
-                <div class="relative">
-                    <img src="{{$event->imageUrl}}"
-                        alt="Tech Conference"
-                        class="w-full h-48 object-cover rounded-t-xl">
-                    <!-- Status Badge -->
-                    <span class="absolute top-4 left-4 px-3 py-1 text-xs font-medium bg-green-100 text-green-600 rounded-full">
-                        {{$event->status}}
-                    </span>
-                    <!-- Quick Actions -->
-                    <form action="{{ route('events.removeevent') }}" method="POST" class="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        @csrf
-                        @method('DELETE')
-                        <input type="hidden" value="{{ $event->id }}" name="idtodelete">
-                        <!-- <button class="p-2 bg-white/90 rounded-full hover:bg-white text-gray-600 hover:text-primary transition-colors">
-                            <i class="fas fa-edit"></i>
-                        </button> -->
-                        <button type="submit" class="p-2 bg-white/90 rounded-full hover:bg-white text-gray-600 hover:text-red-500 transition-colors">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </form>
-                    <form action="{{ route('events.removeevent') }}" method="POST" class="absolute top-4 right-14 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        @csrf
-                        @method('DELETE')
-                        <input type="hidden" value="{{ $event->id }}" name="idtodelete">
-                        <button class="p-2 bg-white/90 rounded-full hover:bg-white text-gray-600 hover:text-primary transition-colors">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </form>
-                </div>
-                <div class="p-5">
-                    <div class="flex items-center gap-2 mb-3">
-                        <span class="px-2.5 py-0.5 text-xs font-medium bg-purple-100 text-primary rounded-full">{{$event->category}}</span>
-                        <span class="px-2.5 py-0.5 text-xs font-medium bg-blue-100 text-blue-600 rounded-full">Festival</span>
-                    </div>
-                    <h3 class="text-lg font-semibold mb-2">{{$event->title}}</h3>
-                    <p class="text-sm text-gray-600 mb-4 line-clamp-2">{{$event->description}}</p>
 
-                    <!-- Event Details -->
-                    <div class="space-y-2 mb-4">
-                        <div class="flex items-center gap-2 text-sm text-gray-600">
-                            <i class="fas fa-calendar-alt text-primary w-4"></i>
-                            <span>{{$event->time}}</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-sm text-gray-600">
-                            <i class="fas fa-map-marker-alt text-primary w-4"></i>
-                            <span>{{$event->location}}</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-sm text-gray-600">
-                            <i class="fas fa-users text-primary w-4"></i>
-                            <span>{{$event->maxparticipants}} Participants</span>
-                        </div>
-                    </div>
+<div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 group relative">
+    <!-- Original Card Design -->
+    <div class="relative">
+        <img src="{{$event->imageUrl}}" alt="Event Image" class="w-full h-48 object-cover rounded-t-xl">
+        <!-- Status Badge -->
+        <span class="absolute top-4 left-4 px-3 py-1 text-xs font-medium bg-green-100 text-green-600 rounded-full">
+            {{$event->status}}
+        </span>
+        <!-- Quick Actions -->
+        <form action="{{ route('events.removeevent') }}" method="POST" class="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            @csrf
+            @method('DELETE')
+            <input type="hidden" value="{{ $event->id }}" name="idtodelete">
+            <button type="submit" class="p-2 bg-white/90 rounded-full hover:bg-white text-gray-600 hover:text-red-500 transition-colors">
+                <i class="fas fa-trash"></i>
+            </button>
+        </form>
 
-                    <!-- View Details Button -->
-                    <button class="w-full px-4 py-2 text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-all duration-300">
-                        View Details
+        <button type="button" 
+                onclick="showModifyForm('modifyForm_{{ $event->id }}')" 
+                class="absolute top-4 right-14 p-2 bg-white/90 rounded-full hover:bg-white text-gray-600 hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+            <i class="fas fa-edit"></i>
+        </button>
+    </div>
+
+    <div class="p-5">
+        <div class="flex items-center gap-2 mb-3">
+            <span class="px-2.5 py-0.5 text-xs font-medium bg-purple-100 text-primary rounded-full">{{$event->category}}</span>
+            <span class="px-2.5 py-0.5 text-xs font-medium bg-blue-100 text-blue-600 rounded-full">Festival</span>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">{{$event->title}}</h3>
+        <p class="text-sm text-gray-600 mb-4 line-clamp-2">{{$event->description}}</p>
+
+        <!-- Event Details -->
+        <div class="space-y-2 mb-4">
+            <div class="flex items-center gap-2 text-sm text-gray-600">
+                <i class="fas fa-calendar-alt text-primary w-4"></i>
+                <span>{{$event->time}}</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm text-gray-600">
+                <i class="fas fa-map-marker-alt text-primary w-4"></i>
+                <span>{{$event->location}}</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm text-gray-600">
+                <i class="fas fa-users text-primary w-4"></i>
+                <span>{{$event->maxparticipants}} Participants</span>
+            </div>
+        </div>
+
+        <!-- View Details Button -->
+        <button class="w-full px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all duration-300">
+            View Details
+        </button>
+    </div>
+
+    <!-- Hidden Modify Form -->
+    <div id="modifyForm_{{ $event->id }}" class="hidden fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-50 flex items-center justify-center">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4">
+            <div class="p-6 border-b border-gray-100">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-gray-800">Modify Event</h2>
+                    <button onclick="hideModifyForm('modifyForm_{{ $event->id }}')" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
                     </button>
                 </div>
             </div>
+
+            <div class="p-6">
+                <form action="{{ route('events.modifyevent') }}" method="POST" class="space-y-6">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="idtomodify" value="{{ $event->id }}">
+
+                    <!-- Title -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Event Title</label>
+                        <input type="text" name="newtitle" value="{{ $event->title }}" required
+                            class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20">
+                    </div>
+
+                    <!-- Description -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                        <textarea name="newdescription" required rows="4"
+                            class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20">{{ $event->description }}</textarea>
+                    </div>
+
+                    <!-- Location -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                        <input type="text" name="newlocation" value="{{ $event->location }}" required
+                            class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20">
+                    </div>
+
+                    <!-- Date and Time -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                            <input type="date" name="newdate" value="{{ $event->date }}" required
+                                class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Time</label>
+                            <input type="time" name="newtime" value="{{ $event->time }}" required
+                                class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20">
+                        </div>
+                    </div>
+
+                    <!-- Category -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                        <select name="newcategory" required
+                            class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20">
+                            <option value="Music & Entertainment" {{ $event->category == 'Music & Entertainment' ? 'selected' : '' }}>Music & Entertainment</option>
+                            <option value="Technology" {{ $event->category == 'Technology' ? 'selected' : '' }}>Technology</option>
+                            <option value="business" {{ $event->category == 'business' ? 'selected' : '' }}>Business & Professional</option>
+                            <option value="Sports & Fitness" {{ $event->category == 'Sports & Fitness' ? 'selected' : '' }}>Sports & Fitness</option>
+                            <option value="Art & Culture" {{ $event->category == 'Art & Culture' ? 'selected' : '' }}>Art & Culture</option>
+                            <option value="Food & Drink" {{ $event->category == 'Food & Drink' ? 'selected' : '' }}>Food & Drink</option>
+                            <option value="Education & Learning" {{ $event->category == 'Education & Learning' ? 'selected' : '' }}>Education & Learning</option>
+                        </select>
+                    </div>
+
+                    <!-- Max Participants -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Maximum Participants</label>
+                        <input type="number" name="newmaxParticipants" value="{{ $event->maxparticipants }}" required min="1"
+                            class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20">
+                    </div>
+
+                    <!-- Event Image -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Event Image URL</label>
+                        <input type="url" name="imageUrl" value="{{ $event->imageUrl }}" required
+                            class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20">
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="flex justify-end gap-4 pt-4">
+                        <button type="button" onclick="hideModifyForm('modifyForm_{{ $event->id }}')"
+                            class="px-6 py-2.5 text-gray-600 hover:text-gray-800 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                            class="px-6 py-2.5 bg-gradient-to-r from-primary to-secondary text-white rounded-lg hover:shadow-lg transition-all duration-300">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showModifyForm(formId) {
+        document.getElementById(formId).classList.remove('hidden');
+        document.getElementById(formId).classList.add('flex');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function hideModifyForm(formId) {
+        document.getElementById(formId).classList.remove('flex');
+        document.getElementById(formId).classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+</script>
 
             @else
             <!-- Event Card 2 (Past Event) -->
@@ -343,43 +451,19 @@
         </div>
         @endif
         @endforeach
-
-        <!-- Pagination -->
-        <!-- <div class="mt-8 flex justify-center">
-            <nav class="flex items-center gap-2">
-                <button class="p-2 rounded-lg border border-gray-200 text-gray-600 hover:border-primary hover:text-primary transition-colors">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <button class="px-4 py-2 rounded-lg bg-primary text-white">1</button>
-                <button class="px-4 py-2 rounded-lg border border-gray-200 text-gray-600 hover:border-primary hover:text-primary transition-colors">2</button>
-                <button class="px-4 py-2 rounded-lg border border-gray-200 text-gray-600 hover:border-primary hover:text-primary transition-colors">3</button>
-                <button class="p-2 rounded-lg border border-gray-200 text-gray-600 hover:border-primary hover:text-primary transition-colors">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </nav>
-        </div> -->
     </main>
 
+
+  
     <script>
-        function toggleModal() {
-            const modal = document.getElementById('createEventModal');
-            if (modal.classList.contains('hidden')) {
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-                document.body.style.overflow = 'hidden';
-            } else {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-                document.body.style.overflow = 'auto';
-            }
-        }
+
 
         document.getElementById('imageUrl').addEventListener('keyup', function(e) {
-            // Add a small delay to prevent too many requests while typing
+
             clearTimeout(this.timer);
             this.timer = setTimeout(() => {
                 updateImagePreview();
-            }, 300); // 300ms delay
+            }, 200);
         });
 
 

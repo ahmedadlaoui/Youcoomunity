@@ -5,19 +5,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Event;
-use Illuminate\Http\Request;
+
 
 class EventController extends Controller
 {
     public function index()
     {
         $events = Event::all();
-        if(empty($events)){
+        if (empty($events)) {
             $events = [];
         }
         return view('dashboard/myevents', compact('events'));
     }
-    public function addevent(){
+    public function addevent()
+    {
 
         $event = new Event();
         $event->title = request('title');
@@ -34,10 +35,24 @@ class EventController extends Controller
 
         return redirect()->route('events.index');
     }
-    public function removeevent(){
-        
+    public function removeevent()
+    {
+
         $Eventtodelete = Event::findOrFail(request('idtodelete'));
         $Eventtodelete->delete();
+        return redirect()->route('events.index');
+    }
+    public function modifyeevent()
+    {
+        $id = (int)request('idtomodify');
+        Event::where('id', $id)->update([
+            'title' => request('newtitle'),
+            'description' => request('newdescription'),
+            'location' => request('newlocation'),
+            'time' => request('newdate') . ' ' . request('newtime'),
+            'category' => request('newcategory'),
+            'maxparticipants' => request('newmaxParticipants')
+        ]);
         return redirect()->route('events.index');
     }
 }

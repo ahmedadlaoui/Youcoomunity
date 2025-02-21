@@ -31,6 +31,7 @@ Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::middleware(['auth'])->group(function () {
     Route::post('/events', [EventController::class, 'addevent'])->name('events.addevent');
     Route::DELETE('/events', [EventController::class, 'removeevent'])->name('events.removeevent');
+    Route::PUT('/events', [EventController::class, 'modifyeevent'])->name('events.modifyevent');
     Route::get('/overview', function () {
         return view('dashboard/overview');
     });
