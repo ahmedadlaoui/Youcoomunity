@@ -457,7 +457,18 @@
   
     <script>
 
-
+function toggleModal() {
+            const modal = document.getElementById('createEventModal');
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            } else {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = 'auto';
+            }
+        }
         document.getElementById('imageUrl').addEventListener('keyup', function(e) {
 
             clearTimeout(this.timer);
@@ -487,7 +498,7 @@
             previewContainer.classList.remove('hidden');
             loadingElement.classList.remove('hidden');
 
-            // Load new image
+            
             const img = new Image();
             img.onload = function() {
                 previewImg.src = urlInput.value;
@@ -511,7 +522,7 @@
             // Here you would typically send the data to your backend
             console.log('Form submitted with data:', data);
 
-            // Close modal after successful submission
+            
             toggleModal();
 
             // Optional: Show success message

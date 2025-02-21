@@ -100,13 +100,13 @@
     </header>
 
 
-       <!-- Hero Section -->
-       <section class="w-full h-screen relative overflow-hidden" style="padding-top: 64px;">
+    <!-- Hero Section -->
+    <section class="w-full h-screen relative overflow-hidden" style="padding-top: 64px;">
         <!-- Background Image with Overlay -->
         <div class="absolute inset-0">
-            <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14" 
-                 alt="Concert Background" 
-                 class="w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14"
+                alt="Concert Background"
+                class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-r from-primary/80 to-secondary/80 mix-blend-multiply"></div>
         </div>
 
@@ -124,7 +124,7 @@
                         <p class="text-lg text-white/90 leading-relaxed max-w-2xl mx-auto">
                             Join the most vibrant community platform where every event becomes an unforgettable experience.
                         </p>
-                        
+
                         <!-- CTA Section -->
                         <div class="flex flex-col sm:flex-row gap-3 pt-2 justify-center">
                             <button class="px-6 py-3 bg-white text-primary rounded-md text-[15px] hover:shadow-lg hover:scale-105 transition-all duration-300 group">
@@ -162,7 +162,7 @@
                 <div class="relative">
                     <!-- Background Blur Effect -->
                     <div class="absolute inset-0 bg-black/20 backdrop-blur-md rounded-2xl"></div>
-                    
+
                     <!-- Stats Grid -->
                     <div class="relative grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
                         <!-- Active Communities -->
@@ -232,80 +232,46 @@
 
             <!-- Events Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Event Card 1 -->
-                <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
-                    <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3"
-                        alt="Tech Conference"
-                        class="w-full h-48 object-cover rounded-t-xl">
-                    <div class="p-6">
-                        <div class="flex items-center gap-2 mb-4">
-                            <span class="px-3 py-1 text-xs font-medium bg-purple-100 text-primary rounded-full">Technology</span>
-                            <span class="px-3 py-1 text-xs font-medium bg-pink-100 text-secondary rounded-full">Conference</span>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-2">Web Development Summit 2024</h3>
-                        <p class="text-gray-600 mb-4">Join industry experts for a deep dive into modern web development practices.</p>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-calendar-alt text-primary"></i>
-                                <span class="text-sm text-gray-600">Mar 15, 2024</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-map-marker-alt text-primary"></i>
-                                <span class="text-sm text-gray-600">San Francisco, CA</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Event Card 2 -->
-                <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
-                    <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3"
-                        alt="Music Festival"
-                        class="w-full h-48 object-cover rounded-t-xl">
-                    <div class="p-6">
-                        <div class="flex items-center gap-2 mb-4">
-                            <span class="px-3 py-1 text-xs font-medium bg-purple-100 text-primary rounded-full">Music</span>
-                            <span class="px-3 py-1 text-xs font-medium bg-pink-100 text-secondary rounded-full">Festival</span>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-2">Summer Music Fest 2024</h3>
-                        <p class="text-gray-600 mb-4">Experience three days of amazing live performances under the stars.</p>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-calendar-alt text-primary"></i>
-                                <span class="text-sm text-gray-600">Jun 20-22, 2024</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-map-marker-alt text-primary"></i>
-                                <span class="text-sm text-gray-600">Austin, TX</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @foreach($allevents as $event)
 
                 <!-- Event Card 3 -->
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
-                    <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3"
+                    <img src="{{ $event->imageUrl }}"
                         alt="Art Workshop"
                         class="w-full h-48 object-cover rounded-t-xl">
                     <div class="p-6">
                         <div class="flex items-center gap-2 mb-4">
-                            <span class="px-3 py-1 text-xs font-medium bg-purple-100 text-primary rounded-full">Art</span>
+                            <span class="px-3 py-1 text-xs font-medium bg-purple-100 text-primary rounded-full">{{$event->category}}</span>
                             <span class="px-3 py-1 text-xs font-medium bg-pink-100 text-secondary rounded-full">Workshop</span>
                         </div>
-                        <h3 class="text-xl font-semibold mb-2">Creative Art Workshop</h3>
-                        <p class="text-gray-600 mb-4">Learn various painting techniques from professional artists.</p>
-                        <div class="flex items-center justify-between">
+                        <h3 class="text-xl font-semibold mb-2">{{$event->title}}</h3>
+                        <p class="text-gray-600 mb-4">{{$event->description}}</p>
+                        <div class="flex items-center justify-between mb-4">
                             <div class="flex items-center gap-2">
                                 <i class="fas fa-calendar-alt text-primary"></i>
-                                <span class="text-sm text-gray-600">Apr 5, 2024</span>
+                                <span class="text-sm text-gray-600">{{$event->time}}</span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <i class="fas fa-map-marker-alt text-primary"></i>
-                                <span class="text-sm text-gray-600">New York, NY</span>
+                                <span class="text-sm text-gray-600">{{$event->location}}</span>
                             </div>
+                        </div>
+
+                        <!-- Participate Button - Full Width -->
+                        <div class="pt-4 border-t border-gray-100">
+                            <form  method="POST">
+                                @csrf
+                                <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                <button type="submit"
+                                    class="w-full px-4 py-2.5 bg-gradient-to-r from-primary to-secondary text-white rounded-lg text-sm hover:shadow-md transition-all duration-300 flex items-center justify-center gap-2">
+                                    <i class="fas fa-plus"></i>
+                                    Participate
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
+                @endforeach
             </div>
 
             <!-- View More Button -->

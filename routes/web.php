@@ -3,9 +3,6 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 
 
@@ -24,6 +21,7 @@ require __DIR__.'/auth.php';
 use App\Http\Controllers\EventController; 
 
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
+Route::get('/', [EventController::class, 'getallevents'])->name('events.getallevents');
 
 
 

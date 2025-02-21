@@ -11,11 +11,19 @@ class EventController extends Controller
 {
     public function index()
     {
-        $events = Event::all();
+        $current_user = Auth::id();
+        $events = Event::where('user_id',$current_user)->get();
         if (empty($events)) {
             $events = [];
         }
         return view('dashboard/myevents', compact('events'));
+    }
+    public function getallevents(){
+        $allevents = Event::All();
+        if (empty($allevents)) {
+            $allevents = [];
+        }
+        return view('welcome', compact('allevents'));
     }
     public function addevent()
     {
